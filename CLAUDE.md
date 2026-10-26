@@ -8,6 +8,9 @@ Why: 사용자가 "업데이트할 때마다 GitHub에 올려"라고 지시함 (
      (`-a` 없는 일반 태그는 `--follow-tags`로 올라가지 않는다)
   3. GitHub Actions(`.github/workflows/build.yml`)가 태그를 받아 빌드·자체 검사 후 exe와 SHA256SUMS로 릴리스를 만든다.
      태그와 `<Version>`이 다르면 워크플로가 실패한다 (도구의 새 버전 알림이 둘을 비교하기 때문).
+- 문서(README 등)·`catalog/mods.json`만 바뀐 경우는 exe가 같으므로 버전·태그 없이 커밋 → `git push origin main`만 한다.
+- README는 한국어 `README.md`와 영어 `README.en.md` 두 개다. 하나를 고치면 다른 하나도 같이 고치고,
+  버튼 이름은 `Strings.ko.xaml` / `Strings.en.xaml`의 실제 문구와 맞춘다.
 - force-push와 히스토리 재작성은 여전히 금지.
 - 커밋 작성자는 GitHub noreply 주소만 쓴다: `newmouse11 <77029057+newmouse11@users.noreply.github.com>`
   (저장소 로컬 git config에 설정됨). 개인 이메일이 커밋에 들어가면 공개 저장소에 노출된다.
