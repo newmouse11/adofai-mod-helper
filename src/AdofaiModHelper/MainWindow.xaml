@@ -296,6 +296,10 @@
           <Border Grid.Row="4" Background="{StaticResource BgSurface}" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0" Padding="8,0">
             <DockPanel>
               <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="{DynamicResource S.Help}" Style="{StaticResource SmallGhost}" Click="OnHelp"/>
+                <Button Content="{DynamicResource S.Contact}" Style="{StaticResource SmallGhost}" Click="OnContact"/>
+                <Button Content="GitHub" Style="{StaticResource SmallGhost}" Click="OnGitHub"/>
+                <TextBlock Text="|" Foreground="{StaticResource TextDisabled}" FontSize="12" VerticalAlignment="Center" Margin="4,0"/>
                 <Button x:Name="SelfUpdateButton" Style="{StaticResource SmallGhost}" Foreground="{StaticResource Info}" Visibility="Collapsed" Click="OnSelfUpdate"/>
                 <TextBlock x:Name="AppVersionText" FontSize="12" Foreground="{StaticResource TextTertiary}" VerticalAlignment="Center" Margin="8,0"/>
               </StackPanel>

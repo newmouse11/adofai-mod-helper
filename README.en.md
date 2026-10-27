@@ -40,7 +40,7 @@ You don't need to install .NET or anything else. The app uses .NET Framework 4.8
 | Yellow notice bar | Appears only when something is wrong. Click its button (**[Fix]**, **[Repair]**, …) to solve it |
 | **Installed** tab | Your mods. Switch to enable/disable, trash icon to delete, **[Update]** when a newer version exists |
 | **Browse mods** tab | Mods you can install. One **[Install]** also installs required libraries |
-| Bottom | **[Copy diagnostics]**, **[Uninstall UMM]**, app version on the right (with a download link when a new version is out) |
+| Bottom | On the left, **[Copy diagnostics]** and **[Uninstall UMM]**. On the right, **[Help]** (this FAQ), **[Report a problem]**, **[GitHub]** and the app version (with a download link when a new version is out) |
 | Top right | 한국어 / English switch |
 
 > Mod files can't be changed while the game is running. Close the game before installing, toggling or deleting mods.
@@ -109,7 +109,8 @@ To remove the mods too, delete the game's `Mods` folder. Save data is never touc
 Close the app, delete the `%LocalAppData%\AdofaiModHelper` folder and start it again. This only removes the app's settings and logs; the game is untouched.
 
 ### Getting help
-Click **[Copy diagnostics]** at the bottom and paste it into [Issues](https://github.com/newmouse11/adofai-mod-helper/issues) or your Discord question.
+Click **[Report a problem]** at the bottom. It copies the diagnostics to your clipboard and opens a new GitHub issue. Describe the problem, paste with `Ctrl + V` and submit (needs a GitHub account).
+Without a GitHub account, click **[Copy diagnostics]** and paste it into your Discord question. All reports: [Issues](https://github.com/newmouse11/adofai-mod-helper/issues)
 It contains the game path, UMM status, mod list and recent logs, which makes the cause easier to find. It contains no passwords, but the path can show your Windows user name, so take a look before pasting.
 
 ---

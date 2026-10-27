@@ -58,6 +58,10 @@
   <sys:String x:Key="S.CopyDiag">Copy diagnostics</sys:String>
   <sys:String x:Key="S.RemoveUmm">Uninstall UMM</sys:String>
   <sys:String x:Key="S.NewVersion">Get version {0}</sys:String>
+  <sys:String x:Key="S.Help">Help</sys:String>
+  <sys:String x:Key="S.Contact">Report a problem</sys:String>
+  <sys:String x:Key="S.T.ContactCopied">Diagnostics copied. Paste them into the GitHub issue that just opened</sys:String>
+  <sys:String x:Key="S.T.OpenFailed">Couldn't open the browser: {0}</sys:String>
 
   <sys:String x:Key="S.B.Problems">{0} mods are installed incorrectly: in a folder UMM can't read, duplicated, or still zipped.</sys:String>
   <sys:String x:Key="S.B.Fix">Fix</sys:String>

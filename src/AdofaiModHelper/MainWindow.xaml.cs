@@ -544,24 +544,57 @@ namespace AdofaiModHelper
 
         async void OnCopyDiagnostics(object sender, RoutedEventArgs e)
         {
+            if (await CopyDiagnosticsAsync()) Toast(App.T("S.T.DiagCopied"));
+        }
+
+        async Task<bool> CopyDiagnosticsAsync()
+        {
             var g = game;
             var text = await Task.Run(() => Diagnostics.Build(g));
             try
             {
                 Clipboard.SetText(text);
-                Toast(App.T("S.T.DiagCopied"));
+                return true;
             }
             catch (ExternalException ex)
             {
                 // 다른 프로그램이 클립보드를 잡고 있으면 COMException
                 Log.Warn("클립보드 복사 실패", ex);
                 Toast(App.T("S.T.ClipboardBusy"), true);
+                return false;
             }
         }
 
+        // 도움말은 지금 화면 언어의 README '자주 묻는 질문'으로 바로 연다
+        void OnHelp(object sender, RoutedEventArgs e) =>
+            OpenUrl(English ? Catalog.RepoUrl + "/blob/main/README.en.md#faq" : Catalog.RepoUrl + "#" + Uri.EscapeDataString("자주-묻는-질문"));
+
+        // 문의 글에 바로 붙여넣을 수 있게 진단 정보를 먼저 복사해 둔다
+        async void OnContact(object sender, RoutedEventArgs e)
+        {
+            if (await CopyDiagnosticsAsync()) Toast(App.T("S.T.ContactCopied"));
+            OpenUrl(Catalog.RepoUrl + "/issues/new");
+        }
+
+        void OnGitHub(object sender, RoutedEventArgs e) => OpenUrl(Catalog.RepoUrl);
+
         void OnSelfUpdate(object sender, RoutedEventArgs e)
         {
-            if (SelfUpdateButton.Tag is string url) Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            if (SelfUpdateButton.Tag is string url) OpenUrl(url);
+        }
+
+        void OpenUrl(string url)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            catch (Win32Exception ex)
+            {
+                // 기본 브라우저가 없거나 막혀 있으면 주소라도 보여 준다
+                Log.Warn("브라우저 열기 실패: " + url, ex);
+                Toast(App.T("S.T.OpenFailed", url), true);
+            }
         }
 
         async void OnLocateGame(object sender, RoutedEventArgs e)

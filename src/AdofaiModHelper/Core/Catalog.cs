@@ -32,6 +32,7 @@ namespace AdofaiModHelper.Core
     {
         public const string Owner = "Newmouse11";
         public const string RepoName = "adofai-mod-helper";
+        public const string RepoUrl = "https://github.com/" + Owner + "/" + RepoName;
         // 목록은 GitHub 저장소의 파일 하나: 이 JSON만 고치면 도구 재배포 없이 반영된다
         public const string RemoteUrl = "https://raw.githubusercontent.com/" + Owner + "/" + RepoName + "/main/catalog/mods.json";
 

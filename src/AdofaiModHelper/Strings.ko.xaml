@@ -62,6 +62,10 @@
   <sys:String x:Key="S.CopyDiag">진단 정보 복사</sys:String>
   <sys:String x:Key="S.RemoveUmm">UMM 제거</sys:String>
   <sys:String x:Key="S.NewVersion">새 버전 {0} 받기</sys:String>
+  <sys:String x:Key="S.Help">도움말</sys:String>
+  <sys:String x:Key="S.Contact">문의하기</sys:String>
+  <sys:String x:Key="S.T.ContactCopied">진단 정보를 복사했어요. 열린 GitHub 문의 글에 붙여넣어 주세요</sys:String>
+  <sys:String x:Key="S.T.OpenFailed">브라우저를 열지 못했어요: {0}</sys:String>
 
   <!-- 알림 배너 -->
   <sys:String x:Key="S.B.Problems">잘못 설치된 모드가 {0}개 있어요. UMM이 읽지 못하는 폴더에 있거나, 같은 모드가 겹쳐 있거나, 압축을 안 푼 상태예요.</sys:String>
