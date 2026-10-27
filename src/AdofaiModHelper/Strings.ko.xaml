@@ -100,6 +100,11 @@
   <sys:String x:Key="S.D.Continue">계속 설치</sys:String>
   <sys:String x:Key="S.D.Error.Title">문제가 생겼어요</sys:String>
   <sys:String x:Key="S.D.Error.Hint">자세한 내용은 '진단 정보 복사'로 확인할 수 있어요.</sys:String>
+  <sys:String x:Key="S.D.Exists.Title">{0}이(가) 이미 설치돼 있어요</sys:String>
+  <sys:String x:Key="S.D.ExistsMany.Title">모드 {0}개가 이미 설치돼 있어요</sys:String>
+  <sys:String x:Key="S.D.Exists.Body">지금 쓰던 설정은 그대로 두고 설치할까요? 모드 파일만 새 버전으로 덮어써요.&#10;[새로 설치]를 고르면 기존 폴더는 휴지통으로 보내고 처음 상태로 설치해요. 켜기/끄기 상태는 어느 쪽이든 유지돼요.</sys:String>
+  <sys:String x:Key="S.D.Exists.Keep">설정 유지하고 설치</sys:String>
+  <sys:String x:Key="S.D.Exists.Clean">새로 설치</sys:String>
 
   <!-- 토스트 -->
   <sys:String x:Key="S.T.UmmInstalled">UMM {0} 설치 완료. 게임에서 Ctrl+F10을 누르면 모드 메뉴가 열려요</sys:String>

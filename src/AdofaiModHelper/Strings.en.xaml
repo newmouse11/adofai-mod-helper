@@ -94,6 +94,11 @@
   <sys:String x:Key="S.D.Continue">Install anyway</sys:String>
   <sys:String x:Key="S.D.Error.Title">Something went wrong</sys:String>
   <sys:String x:Key="S.D.Error.Hint">Use Copy diagnostics to see the details.</sys:String>
+  <sys:String x:Key="S.D.Exists.Title">{0} is already installed</sys:String>
+  <sys:String x:Key="S.D.ExistsMany.Title">{0} mods are already installed</sys:String>
+  <sys:String x:Key="S.D.Exists.Body">Keep your current settings and install? Only the mod files are replaced with the new version.&#10;Clean install sends the old folder to the Recycle Bin and installs from scratch. The on/off state is kept either way.</sys:String>
+  <sys:String x:Key="S.D.Exists.Keep">Keep settings and install</sys:String>
+  <sys:String x:Key="S.D.Exists.Clean">Clean install</sys:String>
 
   <sys:String x:Key="S.T.UmmInstalled">UMM {0} installed. Press Ctrl+F10 in game to open the mod menu</sys:String>
   <sys:String x:Key="S.T.ModsInstalled">{0} mods installed</sys:String>

@@ -14,7 +14,7 @@ Why: 사용자가 "업데이트할 때마다 GitHub에 올려"라고 지시함 (
 - force-push와 히스토리 재작성은 여전히 금지.
 - 커밋 작성자는 GitHub noreply 주소만 쓴다: `newmouse11 <77029057+newmouse11@users.noreply.github.com>`
   (저장소 로컬 git config에 설정됨). 개인 이메일이 커밋에 들어가면 공개 저장소에 노출된다.
-- 원격: `https://github.com/Newmouse11/adofai-mod-helper` (기본 브랜치 `main`, 2026-10-26 기준 아직 생성 전).
+- 원격: `https://github.com/newmouse11/adofai-mod-helper` (기본 브랜치 `main`, `origin`으로 연결됨).
   도구가 `catalog/mods.json`을 이 저장소 main 브랜치에서 읽으므로 경로·브랜치 이름을 바꾸면 `Core/Catalog.cs`의 `RemoteUrl`도 같이 바꾼다.
 - `newmouse11/Nslookup_-ADOFAI-Mod-Install`은 **다른 프로젝트**(이전 설치기)다. 이 프로젝트를 거기에 push하지 않는다
   (2026-10-26에 잘못 올렸다가 복원 커밋 92681e7과 v2.0.0 태그 삭제로 되돌림. 합쳤던 상태는 로컬 `backup/pushed-to-old-repo`).

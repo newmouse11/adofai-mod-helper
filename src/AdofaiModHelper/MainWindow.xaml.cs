@@ -39,7 +39,7 @@ namespace AdofaiModHelper
         string latestUmm;
         int wizardStep;
         bool busy;
-        TaskCompletionSource<bool> dialogResult;
+        TaskCompletionSource<DialogChoice> dialogResult;
 
         bool English => settings.Language == "en";
 
@@ -55,7 +55,7 @@ namespace AdofaiModHelper
             SourceInitialized += (s, e) => DarkTitleBar.Apply(this);
             Loaded += OnLoaded;
             Closed += (s, e) => lifetime.Cancel();
-            PreviewKeyDown += (s, e) => { if (e.Key == Key.Escape && DialogLayer.Visibility == Visibility.Visible) CloseDialog(false); };
+            PreviewKeyDown += (s, e) => { if (e.Key == Key.Escape && DialogLayer.Visibility == Visibility.Visible) CloseDialog(DialogChoice.Cancel); };
         }
 
         async void OnLoaded(object sender, RoutedEventArgs e)
@@ -393,12 +393,25 @@ namespace AdofaiModHelper
         {
             var list = withDependencies ? Catalog.WithDependencies(selected, catalog, InstalledIds()) : selected.ToList();
             if (list.Count == 0) return;
+
+            // 이미 깔린 모드를 다시 받을 때는 쓰던 설정을 남길지 먼저 묻는다
+            bool clean = false;
+            var existing = list.Where(m => InstalledFor(m) != null).ToList();
+            if (existing.Count > 0)
+            {
+                var title = existing.Count == 1 ? App.T("S.D.Exists.Title", existing[0].Name) : App.T("S.D.ExistsMany.Title", existing.Count);
+                var choice = await ShowChoiceAsync(title, App.T("S.D.Exists.Body"),
+                    App.T("S.D.Exists.Keep"), App.T("S.D.Exists.Clean"), App.T("S.Cancel"));
+                if (choice == DialogChoice.Cancel) return;
+                clean = choice == DialogChoice.Alternative;
+            }
+
             int done = 0;
             await RunAsync(async () =>
             {
                 foreach (var mod in list)
                 {
-                    await Catalog.InstallAsync(game, mod, MakeProgress(App.T("S.InstallingMod", mod.Name)), lifetime.Token);
+                    await Catalog.InstallAsync(game, mod, MakeProgress(App.T("S.InstallingMod", mod.Name)), lifetime.Token, clean);
                     done++;
                 }
             });
@@ -726,13 +739,21 @@ namespace AdofaiModHelper
 
         // ================= 확인창 / 토스트 =================
 
-        Task<bool> ShowDialogAsync(string title, string body, string confirm, string cancel)
+        enum DialogChoice { Cancel, Alternative, Primary }
+
+        async Task<bool> ShowDialogAsync(string title, string body, string confirm, string cancel) =>
+            await ShowChoiceAsync(title, body, confirm, null, cancel) == DialogChoice.Primary;
+
+        // 주 버튼(오른쪽 끝, 노랑) / 대안 버튼(회색, 없으면 숨김) / 취소. Esc는 취소
+        Task<DialogChoice> ShowChoiceAsync(string title, string body, string primary, string alternative, string cancel)
         {
-            dialogResult?.TrySetResult(false);
-            dialogResult = new TaskCompletionSource<bool>();
+            dialogResult?.TrySetResult(DialogChoice.Cancel);
+            dialogResult = new TaskCompletionSource<DialogChoice>();
             DialogTitle.Text = title;
             DialogBody.Text = body;
-            DialogConfirm.Content = confirm;
+            DialogConfirm.Content = primary;
+            DialogAlt.Content = alternative;
+            DialogAlt.Visibility = alternative == null ? Visibility.Collapsed : Visibility.Visible;
             DialogCancel.Content = cancel;
             DialogCancel.Visibility = cancel == null ? Visibility.Collapsed : Visibility.Visible;
             DialogLayer.Visibility = Visibility.Visible;
@@ -741,15 +762,16 @@ namespace AdofaiModHelper
             return dialogResult.Task;
         }
 
-        void CloseDialog(bool result)
+        void CloseDialog(DialogChoice choice)
         {
             DialogLayer.Visibility = Visibility.Collapsed;
             ContentRoot.IsEnabled = !busy;
-            dialogResult?.TrySetResult(result);
+            dialogResult?.TrySetResult(choice);
         }
 
-        void OnDialogConfirm(object sender, RoutedEventArgs e) => CloseDialog(true);
-        void OnDialogCancel(object sender, RoutedEventArgs e) => CloseDialog(false);
+        void OnDialogConfirm(object sender, RoutedEventArgs e) => CloseDialog(DialogChoice.Primary);
+        void OnDialogAlt(object sender, RoutedEventArgs e) => CloseDialog(DialogChoice.Alternative);
+        void OnDialogCancel(object sender, RoutedEventArgs e) => CloseDialog(DialogChoice.Cancel);
 
         // 오른쪽 아래 알림 4초, 최대 3개 (§5.7). 문제 알림은 왼쪽 선을 경고색으로
         void Toast(string message, bool warning = false)

@@ -76,6 +76,14 @@ The app tells you when the game was updated. Try these in order:
 2. If it still won't start, **[Disable all mods]**. If the game starts, turn mods back on one at a time to find the culprit.
 3. If it still won't start, **[Uninstall UMM]** at the bottom. The game goes back to its unmodded state.
 
+### What happens to my settings when I update a mod I already have?
+When you download a mod that's already installed (including updates and **[Update all]**), a dialog asks first.
+- **[Keep settings and install]**: replaces only the mod files with the new version and keeps your settings files. Usually pick this.
+- **[Clean install]**: sends the old folder to the Recycle Bin and installs from scratch. Use it when settings are broken or the mod acts up after an update.
+- **[Cancel]**: changes nothing.
+
+Either way, the mod's on/off state is kept.
+
 ### What happens when I disable a mod?
 Its dll is renamed to `name.dll.disabled`, so UMM doesn't load it. Enabling renames it back, and the mod's settings stay as they were.
 Disabling a library (JALib etc.) also stops the mods that use it, so the app tells you which mods are affected.

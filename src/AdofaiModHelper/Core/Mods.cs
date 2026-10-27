@@ -237,8 +237,9 @@ namespace AdofaiModHelper.Core
 
         // ---- 설치/삭제 ----
 
-        // zip을 풀어 Info.json이 있는 폴더를 찾고 Mods/<폴더>로 복사. 기존 폴더 위에 덮어써서 모드 설정 파일은 보존된다
-        public static InstalledMod InstallZip(Game game, string zipPath)
+        // zip을 풀어 Info.json이 있는 폴더를 찾고 Mods/<폴더>로 복사.
+        // 기본은 기존 폴더 위에 덮어써서 모드 설정 파일을 보존하고, clean이면 기존 폴더를 휴지통으로 보낸 뒤 새로 깐다
+        public static InstalledMod InstallZip(Game game, string zipPath, bool clean = false)
         {
             var temp = Files.NewTempDir();
             try
@@ -253,11 +254,14 @@ namespace AdofaiModHelper.Core
                 var existing = Scan(game).Mods.FirstOrDefault(m => string.Equals(m.Id, mod.Id, StringComparison.OrdinalIgnoreCase));
                 bool keepDisabled = existing != null && IsDllDisabled(existing);
                 var target = existing?.Folder ?? FreeFolderFor(game, mod.Id);
+                // zip 검증이 끝난 뒤에 지워야 받은 파일이 깨졌을 때 기존 모드까지 잃지 않는다
+                if (clean && existing != null) Files.Discard(existing.Folder);
                 Files.CopyDirectory(source, target);
                 var installed = ReadMod(target);
                 // 꺼 둔 모드는 업데이트해도 꺼진 채로 둔다 (새 dll도 .disabled로)
                 if (keepDisabled && installed?.Dll != null) RenameDll(installed.Dll, false);
-                Log.Info($"모드 설치: {mod.Id} {mod.Version} → {target}" + (keepDisabled ? " (꺼진 상태 유지)" : ""));
+                Log.Info($"모드 설치: {mod.Id} {mod.Version} → {target}"
+                         + (clean && existing != null ? " (새로 설치)" : "") + (keepDisabled ? " (꺼진 상태 유지)" : ""));
                 return installed;
             }
             finally

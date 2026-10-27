@@ -257,6 +257,20 @@ static class Program
         Assert(mod.Version == "2.9.3", "업데이트 반영");
         Assert(File.ReadAllText(Path.Combine(mod.Folder, "Settings.xml")) == "user settings", "모드 설정 파일 보존");
 
+        // 새로 설치: 설정·옛 파일은 휴지통으로, 같은 폴더 이름에 깨끗하게. 꺼 둔 상태는 유지
+        File.WriteAllText(Path.Combine(mod.Folder, "old-leftover.dll"), "stale");
+        File.WriteAllText(Path.Combine(mod.Folder, "AdofaiTweaks.dll.disabled"), "off");
+        var v3 = MakeZip("tweaks3.zip", s =>
+        {
+            WriteMod(Path.Combine(s, "AdofaiTweaks"), "AdofaiTweaks", "3.0.0");
+            File.WriteAllText(Path.Combine(s, "AdofaiTweaks", "AdofaiTweaks.dll"), "v3");
+        });
+        mod = Mods.InstallZip(game, v3, clean: true);
+        Assert(mod.Folder == Path.Combine(game.ModsDir, "AdofaiTweaks") && mod.Version == "3.0.0", "새로 설치도 같은 폴더에");
+        Assert(!File.Exists(Path.Combine(mod.Folder, "Settings.xml")) && !File.Exists(Path.Combine(mod.Folder, "old-leftover.dll")), "설정·옛 파일 제거");
+        Assert(!File.Exists(Path.Combine(mod.Folder, "AdofaiTweaks.dll")) && File.ReadAllText(Path.Combine(mod.Folder, "AdofaiTweaks.dll.disabled")) == "v3",
+            "꺼 둔 모드는 새로 설치해도 꺼진 채 (새 dll로)");
+
         // Iridium처럼 루트에 Info.json이 있는 구조 + 소문자 info.json
         var flat = MakeZip("flat.zip", s => { WriteMod(s, "Iridium", "2.0.1"); File.Move(Path.Combine(s, "Info.json"), Path.Combine(s, "info.json")); });
         Assert(Mods.InstallZip(game, flat).Folder == Path.Combine(game.ModsDir, "Iridium"), "루트 Info.json(소문자) 구조");

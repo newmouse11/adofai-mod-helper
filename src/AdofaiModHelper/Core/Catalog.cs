@@ -152,7 +152,7 @@ namespace AdofaiModHelper.Core
         }
 
         // 한 모드를 받아 설치. 설치 후 실제 Info.json Id가 목록 Id와 다르면 기록해 둔다 (목록 수정 필요 신호)
-        public static async Task<InstalledMod> InstallAsync(Game game, CatalogMod mod, IProgress<double> progress, CancellationToken ct)
+        public static async Task<InstalledMod> InstallAsync(Game game, CatalogMod mod, IProgress<double> progress, CancellationToken ct, bool clean = false)
         {
             if (mod.DownloadUrl == null) await ResolveAsync(mod, ct).ConfigureAwait(false);
             var temp = Files.NewTempDir();
@@ -161,7 +161,7 @@ namespace AdofaiModHelper.Core
                 var zip = Path.Combine(temp, "mod.zip");
                 await Http.DownloadAsync(mod.DownloadUrl, zip, progress, ct).ConfigureAwait(false);
                 VerifyDigest(zip, mod);
-                var installed = Mods.InstallZip(game, zip);
+                var installed = Mods.InstallZip(game, zip, clean);
                 if (!string.Equals(installed.Id, mod.Id, StringComparison.OrdinalIgnoreCase))
                     Log.Warn($"목록 Id({mod.Id})와 실제 Info.json Id({installed.Id})가 다름: {mod.Repo}");
                 return installed;
